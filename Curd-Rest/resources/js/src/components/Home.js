@@ -1,9 +1,20 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link } from "react-router-dom";
-import Add from './Add';
+
 import AppContainer from "./AppContainer";
+import api from'../api'
 
 const Home = () => {
+
+    useEffect(() => {
+     api.getAllPost().then(res => {
+         console.log('All Post')
+         console.log(res)
+     }).catch((err) => {
+         
+     });
+       
+    }, [])
     return (
         <>
             <AppContainer title='Laravel - React  Crud Operations'>
@@ -22,6 +33,8 @@ const Home = () => {
                                 </tr>
                             </thead>
                             <tbody>
+
+                                {res.data.data.map() }
                                 <td>1</td>
                                 <td>Title</td>
                                 <td>Lorem ipsum, dolor sit amet consectetur adipisicing </td>

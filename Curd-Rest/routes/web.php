@@ -17,6 +17,3 @@ Route::get('/{any?}', function () {
     return view('welcome');
 })->where('any','^(?!api).*$');
 
-Route::get('/post', PostController::index,function(){
-    return view('test')
-});

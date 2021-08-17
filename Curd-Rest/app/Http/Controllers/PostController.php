@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\Post as PostResources;
 use App\Models\PostModel;
-
+// şu şeyi açar mısınpost men mi postman tekrar
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+   
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+        // die('test');
         return   PostResources::collection(PostModel::all());
 
     }
@@ -37,7 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title'=>'required',
+            'description'=>'required'
+        ]);
+        $post= new PostModel([
+            'title'=>$request->title,
+            'description'=>$request->description,
+        ]);
+
+        $post->save();
+        return response().json([
+            'Data'=>'Data Created'
+        ]);
     }
 
     /**
@@ -48,7 +61,19 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $request->validate([
+            'title'=>'required',
+            'description'=>'required'
+        ]);
+        $post= PostModel::finOrFail($id);
+        $post->title=$request->title;
+        $post->description=$request->description;
+
+
+        $post->save();
+        return response().json([
+            'Data'=>'Data updated'
+        ]);
     }
 
     /**
@@ -59,7 +84,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return new PostResources(PostModel::findOrFail($id));
     }
 
     /**
@@ -82,6 +107,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post=PostModel::findOrFail($id);
+        $post->delete();
+
+         return response().json([
+            'Data'=>'Post Deleted'
+        ]);
+    
     }
 }

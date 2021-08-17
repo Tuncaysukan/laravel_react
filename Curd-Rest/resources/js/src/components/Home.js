@@ -1,20 +1,57 @@
-import React,{useEffect} from 'react';
+import React,{useEffect , useState} from 'react';
 import { Link } from "react-router-dom";
-
 import AppContainer from "./AppContainer";
 import api from'../api'
 
 const Home = () => {
-
+    const [post, setpost] = useState(null)
     useEffect(() => {
+        
      api.getAllPost().then(res => {
-         console.log('All Post')
-         console.log(res)
+      const result =res.data;
+      setpost(result.data)
      }).catch((err) => {
          
      });
+  
        
     }, [])
+  
+
+    const renderPost= ()=>{
+
+       
+      
+        if (!post) {
+            return (<tr>
+                <td colSpan="4" >
+                    Loading Post....
+                </td>
+            </tr>)
+        }
+    }
+
+    if (post===null) {
+        
+        return (<tr>
+            <td colSpan="4" >
+               There is not post yet. Add One
+            </td>
+        </tr>)
+    }
+      return ( post.map((data) => (
+            <tr key={data.id}>
+                <td >{data.id}</td>
+                <td>{data.title}</td>
+                <td>{data.description}</td>
+                <td>
+                    <Link to={`posts/${data.id}`} className='btn btn-warning btn-sm mr-2'>Edit</Link>
+                    <a href="#" className='btn btn-danger  btn-sm'>Delete</a>
+                </td>
+            </tr>
+        )))
+    
+   
     return (
         <>
             <AppContainer title='Laravel - React  Crud Operations'>
@@ -33,15 +70,7 @@ const Home = () => {
                                 </tr>
                             </thead>
                             <tbody>
-
-                                {res.data.data.map() }
-                                <td>1</td>
-                                <td>Title</td>
-                                <td>Lorem ipsum, dolor sit amet consectetur adipisicing </td>
-                                <td>
-                                    <Link to="/edit/1" className='btn btn-warning btn-sm mr-2'>Edit</Link>
-                                    <a href="#" className='btn btn-danger  btn-sm'>Delete</a>
-                                </td>
+{renderPost()}
                             </tbody>
                         </table>
                     </div>

@@ -20,4 +20,3 @@ Route::resource('posts',PostController::class);
 
 
 
-//Route::resources('/user', [UserController::class, 'index']);

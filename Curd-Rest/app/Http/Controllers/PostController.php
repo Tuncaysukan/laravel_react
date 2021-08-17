@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        
+        // die('test');
         return   PostResources::collection(PostModel::all());
 
     }
@@ -47,10 +47,16 @@ class PostController extends Controller
             'description'=>$request->description,
         ]);
 
-        $post->save();
-        return response().json([
-            'Data'=>'Data Created'
-        ]);
+       
+       if ( $post->save()) {
+           return response()->json([
+           'Data'=>'Data Created'
+           ]);
+       }else{
+           return response()->json([
+               'data'=>'else '
+           ]);
+       }
     }
 
     /**
@@ -61,19 +67,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $request->validate([
-            'title'=>'required',
-            'description'=>'required'
-        ]);
-        $post= PostModel::finOrFail($id);
-        $post->title=$request->title;
-        $post->description=$request->description;
-
-
-        $post->save();
-        return response().json([
-            'Data'=>'Data updated'
-        ]);
+       
     }
 
     /**
@@ -96,7 +90,19 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+        'title'=>'required',
+        'description'=>'required'
+        ]);
+        $post= PostModel::findOrFail($id);
+        $post->title=$request->title;
+        $post->description=$request->description;
+
+
+        $post->save();
+        return response()->json([
+        'Data'=>'Data updated'
+        ]);
     }
 
     /**
@@ -110,7 +116,7 @@ class PostController extends Controller
         $post=PostModel::findOrFail($id);
         $post->delete();
 
-         return response().json([
+         return response()->json([
             'Data'=>'Post Deleted'
         ]);
     

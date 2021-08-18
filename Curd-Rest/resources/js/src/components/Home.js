@@ -18,10 +18,7 @@ const Home = () => {
     }, [])
   
 
-    const renderPost= ()=>{
-
-       
-      
+    const renderPost=(()=>{
         if (!post) {
             return (<tr>
                 <td colSpan="4" >
@@ -29,27 +26,27 @@ const Home = () => {
                 </td>
             </tr>)
         }
-    }
+        if (post===null) {
+    
+            return (<tr>
+                <td colSpan="4" >
+                   There is not post yet. Add One
+                </td>
+            </tr>)
+        }
 
-    if (post===null) {
-        
-        return (<tr>
-            <td colSpan="4" >
-               There is not post yet. Add One
-            </td>
-        </tr>)
-    }
-      return ( post.map((data) => (
+        return(post.map((data)=>(
             <tr key={data.id}>
-                <td >{data.id}</td>
+                <td>{data.id}</td>
                 <td>{data.title}</td>
                 <td>{data.description}</td>
-                <td>
-                    <Link to={`posts/${data.id}`} className='btn btn-warning btn-sm mr-2'>Edit</Link>
-                    <a href="#" className='btn btn-danger  btn-sm'>Delete</a>
-                </td>
+                <Link to={`edit/${data.id}`} className='btn btn-warning btn-sm mr-2'>Edit</Link>
+                <Link to={`delete/${data.id}`} className='btn btn-danger  btn-sm'>Delete</Link>
+
+
             </tr>
         )))
+    })
     
    
     return (
